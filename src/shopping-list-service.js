@@ -6,7 +6,7 @@ const shoppingListService = {
     return knex
       .from('shopping-list')
       .select('*')
-      .where({ id })
+      .where('id', id)
       .first();
   },
   deleteItemById(knex, id) {

@@ -1,31 +1,69 @@
+/* eslint-disable quotes */
 const shoppingListService = require('../src/shopping-list-service');
 const knex = require('knex');
 
 describe('Shopping list service service object', function() {
   let db;
 
-  let testArticles = [
+  let listTestItems = [
     {
-      title: 'First test post!',
-      content:
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus consequuntur deserunt commodi, nobis qui inventore corrupti iusto aliquid debitis unde non.Adipisci, pariatur.Molestiae, libero esse hic adipisci autem neque ?',
+      id: 1,
+      name: '1 item',
+      date_added: new Date('2029-01-22T16:28:32.615Z'),
+      price: '41.00',
+      category: 'Main',
     },
     {
-      title: 'Second test post!',
-      content:
-        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum, exercitationem cupiditate dignissimos est perspiciatis, nobis commodi alias saepe atque facilis labore sequi deleniti. Sint, adipisci facere! Velit temporibus debitis rerum.',
+      id: 2,
+      name: '2 item',
+      date_added: new Date('2029-01-22T16:28:32.615Z'),
+      price: '42.00',
+      category: 'Lunch',
     },
     {
-      title: 'Third test post!',
-      content:
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus, voluptate? Necessitatibus, reiciendis? Cupiditate totam laborum esse animi ratione ipsa dignissimos laboriosam eos similique cumque. Est nostrum esse porro id quaerat.',
+      id: 3,
+      name: '3 item',
+      date_added: new Date('2029-01-22T16:28:32.615Z'),
+      price: '43.00',
+      category: 'Breakfast',
+    },
+    {
+      id: 4,
+      name: '4 item',
+      date_added: new Date('2029-01-22T16:28:32.615Z'),
+      price: '44.00',
+      category: 'Lunch',
+    },
+    {
+      id: 5,
+      name: '5 item',
+      date_added: new Date('2029-01-22T16:28:32.615Z'),
+      price: '45.00',
+      category: 'Snack',
     },
   ];
 
   before(() => {
     db = knex({
       client: 'pg',
-      connection: process.env.TEST_DB_URL,
+      connection: process.env.TEST_DB2_URL,
+    });
+  });
+
+  before(() => db('shopping_list').truncate());
+
+  afterEach(() => db('shopping_list').truncate());
+
+  after(() => db.destroy());
+
+  context(`'shopping_list' has data`, () => {
+    beforeEach(() => {
+      return db.into('shopping_list').insert(listTestItems);
+    });
+    it(`getAllItems() resolves all items from 'shopping_list' table`, () => {
+      return shoppingListService.getAllItems(db).then((actual) => {
+        expect(actual).to.eql(listTestItems);
+      });
     });
   });
 
