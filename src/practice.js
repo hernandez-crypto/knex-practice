@@ -1,5 +1,6 @@
 const knex = require('knex');
 require('dotenv').config();
+//const ListServices = require('shopping-lists-service');
 
 const knexInstance = knex({
   client: 'pg',
@@ -36,7 +37,7 @@ function paginateProducts(page) {
     .limit(productsPerPage)
     .offset(offset)
     .then((result) => {
-      console.log(result);
+      console.log(resulr);
     });
 }
 

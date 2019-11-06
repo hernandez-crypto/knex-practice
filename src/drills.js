@@ -38,7 +38,7 @@ function getItemsAddedAfter(date) {
     )
     .then((result) => console.log(result));
 }
-function totalCostFromCategory() {
+function getTotalCostofEachCategory() {
   knexInstance
     .select('category')
     .sum('price AS total')
